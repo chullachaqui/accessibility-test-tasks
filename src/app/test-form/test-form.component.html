@@ -1,0 +1,56 @@
+<div class="container">
+
+    <h1>Accessible test form</h1>
+    <form #testForm="ngForm" novalidate>
+
+        <div class="field">
+            <label for="name">Name: </label><br>
+            <input id="name" type="text" #name="ngModel" [(ngModel)]="user.name" name="name" required minlength="2" autocomplete="name">
+            
+            <div class="alert" [hidden]="name.valid || name.untouched" aria-invalid="true">
+                <div *ngIf="name.errors?.['required']">Name is required</div>
+                <div *ngIf="name.errors?.['minlength']">Please enter at least 2 characters</div>
+            </div>
+
+        </div>
+
+        <div class="field">
+            <label for="surname">Surname: </label><br>
+            <input id="surname" type="text" #surname="ngModel" [(ngModel)]="user.surname" name="surname" autocomplete="family-name" required minlength="2">
+
+            <div class="alert" [hidden]="surname.valid || surname.untouched" aria-invalid="true">
+                <div *ngIf="surname.errors?.['required']">Surname is required</div>
+                <div *ngIf="surname.errors?.['minlength']">Please enter at least 2 characters</div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="E-mail">E-mail address: </label><br>
+            <input id="E-mail" type="text" #mail="ngModel" [(ngModel)]="user.mail" name="mail" autocomplete="email" required appMailValidator>
+
+            <div class="alert" [hidden]="mail.valid || mail.untouched" aria-invalid="true">
+                <div *ngIf="mail.errors?.['required']">E-mail address is required</div>
+                <div *ngIf="mail.errors?.['mailValidation']">E-mail address is not valid</div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="phone">* Phone number: </label><br>
+            <input id="phone" type="text" #phone="ngModel" [(ngModel)]="user.phoneNumber" name="phone" autocomplete="tel" (keyup)="phoneChecker(phone.value)">
+            <div class="mild-alert" *ngIf="(phone.value) && !phoneCheck">Provided number is invalid</div>
+        </div>
+
+        <div class="field">
+            <label for="nationality">Nationality: </label><br>
+            <select id="nationality" type="text" #nationality="ngModel" [(ngModel)]="user.nationality" name="nationality" required>
+                <option *ngFor="let nationality of nationalities" [value]="nationality">{{nationality}}</option>
+            </select>
+
+            <div class="alert" [hidden]="nationality.valid || nationality.untouched" aria-invalid="true">
+                <div *ngIf="nationality.errors?.['required']">Nationality is required</div>
+            </div>
+        </div>
+
+        <button [disabled]="!testForm.valid" type="submit" value="Submit">Submit</button>
+    </form>
+</div>

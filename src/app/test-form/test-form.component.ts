@@ -7,11 +7,7 @@ import { Component } from '@angular/core';
 })
 export class TestFormComponent {
 
-  // public name: string = '';
-  // public surname: string = '';
-  // public mail: string = '';
-  // public phone: number = +48;
-  public nationalities: string[] = ['Polish', 'English', 'Uruguayan', 'Spanish'];
+  nationalities: string[] = ['Polish', 'English', 'Uruguayan', 'Spanish'];
 
   user = {
     name: '',
@@ -22,8 +18,7 @@ export class TestFormComponent {
   }
 
   phoneCheck: boolean = false;
-
-  constructor( ) { }
+  submitted: boolean = false;
 
   ngOnInit(): void {
   }
@@ -37,6 +32,10 @@ export class TestFormComponent {
       this.phoneCheck = false;
     }
     
+  }
+
+  showStatus() {
+    this.submitted = true;
   }
 
 }

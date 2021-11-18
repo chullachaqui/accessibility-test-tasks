@@ -1,13 +1,13 @@
 <div class="container">
 
     <h1>Accessible test form</h1>
-    <form #testForm="ngForm" novalidate>
+    <form #testForm="ngForm" (ngSubmit)="showStatus()">
 
         <div class="field">
             <label for="name">Name: </label><br>
-            <input id="name" type="text" #name="ngModel" [(ngModel)]="user.name" name="name" required minlength="2" autocomplete="name">
+            <input id="name" type="text" #name="ngModel" [(ngModel)]="user.name" name="name" required minlength="2" autocomplete="name" aria-autocomplete="list">
             
-            <div class="alert" [hidden]="name.valid || name.untouched" aria-invalid="true">
+            <div class="alert" [hidden]="name.valid || name.pristine" role="alert" aria-live="polite" aria-atomic="true" tabindex="0">
                 <div *ngIf="name.errors?.['required']">Name is required</div>
                 <div *ngIf="name.errors?.['minlength']">Please enter at least 2 characters</div>
             </div>
@@ -16,9 +16,9 @@
 
         <div class="field">
             <label for="surname">Surname: </label><br>
-            <input id="surname" type="text" #surname="ngModel" [(ngModel)]="user.surname" name="surname" autocomplete="family-name" required minlength="2">
+            <input id="surname" type="text" #surname="ngModel" [(ngModel)]="user.surname" name="surname" autocomplete="family-name" aria-autocomplete="list" required minlength="2">
 
-            <div class="alert" [hidden]="surname.valid || surname.untouched" aria-invalid="true">
+            <div class="alert" [hidden]="surname.valid || surname.pristine" role="alert" aria-live="polite" aria-atomic="true" tabindex="0">
                 <div *ngIf="surname.errors?.['required']">Surname is required</div>
                 <div *ngIf="surname.errors?.['minlength']">Please enter at least 2 characters</div>
             </div>
@@ -26,18 +26,18 @@
 
         <div class="field">
             <label for="E-mail">E-mail address: </label><br>
-            <input id="E-mail" type="text" #mail="ngModel" [(ngModel)]="user.mail" name="mail" autocomplete="email" required appMailValidator>
+            <input id="E-mail" type="text" #mail="ngModel" [(ngModel)]="user.mail" name="mail" autocomplete="email" aria-autocomplete="list" required appMailValidator>
 
-            <div class="alert" [hidden]="mail.valid || mail.untouched" aria-invalid="true">
+            <div class="alert" [hidden]="mail.valid || mail.pristine" role="alert" aria-live="polite" aria-atomic="true" tabindex="0">
                 <div *ngIf="mail.errors?.['required']">E-mail address is required</div>
                 <div *ngIf="mail.errors?.['mailValidation']">E-mail address is not valid</div>
             </div>
         </div>
 
         <div class="field">
-            <label for="phone">* Phone number: </label><br>
-            <input id="phone" type="text" #phone="ngModel" [(ngModel)]="user.phoneNumber" name="phone" autocomplete="tel" (keyup)="phoneChecker(phone.value)">
-            <div class="mild-alert" *ngIf="(phone.value) && !phoneCheck">Provided number is invalid</div>
+            <label for="phone">Phone number: (optional)</label><br>
+            <input id="phone" type="text" #phone="ngModel" [(ngModel)]="user.phoneNumber" name="phone" autocomplete="tel" aria-autocomplete="list" (keyup)="phoneChecker(phone.value)">
+            <div class="mild-alert" *ngIf="(phone.value) && !phoneCheck" tabindex="0">Provided number is invalid</div>
         </div>
 
         <div class="field">
@@ -46,11 +46,21 @@
                 <option *ngFor="let nationality of nationalities" [value]="nationality">{{nationality}}</option>
             </select>
 
-            <div class="alert" [hidden]="nationality.valid || nationality.untouched" aria-invalid="true">
+            <div class="alert" [hidden]="nationality.valid || nationality.untouched" aria-invalid="true" role="alert" aria-live="polite" tabindex="0">
                 <div *ngIf="nationality.errors?.['required']">Nationality is required</div>
             </div>
         </div>
 
-        <button [disabled]="!testForm.valid" type="submit" value="Submit">Submit</button>
+        <!-- <button [disabled]="!testForm.valid" type="submit" value="Submit">Submit</button> -->
+        <button type="submit" value="Submit">Submit</button>
+
+        <span class="summary" *ngIf="submitted" role="alertdialog" aria-live="assertive" aria-atomic="true" tabindex="0">
+            <ul>
+                <li *ngIf="!name.valid">Please enter valid name</li>
+                <li *ngIf="!surname.valid">Please enter valid surname</li>
+                <li *ngIf="!mail.valid">Please enter valid e-mail</li>
+                <li *ngIf="!nationality.valid">Please select nationality</li>
+            </ul>            
+        </span>
     </form>
 </div>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-test-form',
@@ -31,11 +32,15 @@ export class TestFormComponent {
     } else {
       this.phoneCheck = false;
     }
-    
+
   }
 
-  showStatus() {
+  showSummary() {
     this.submitted = true;
+  }
+
+  reset(input: NgModel) {
+    input.reset(input.value) // set in order for NVDA to re-read the alert message if it is unchanged while typing
   }
 
 }

@@ -16,7 +16,7 @@ export class MailValidatorDirective implements Validator {
     let mailFormat = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     
     let test = mailFormat.test(control.value);
-    console.log(control.value)
+    
     if (!test) {
         return {
             'mailValidation': true

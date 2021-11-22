@@ -4,7 +4,6 @@
     box-sizing: border-box;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 50px;
 }
 
 form {
@@ -13,6 +12,7 @@ form {
     border-radius: 5px;
     border: 1px solid black;
 }
+
 
 .field {
     margin-bottom: 10px;
@@ -38,13 +38,6 @@ button {
     margin-top: 10px;
     background-color: rgb(206, 224, 206);
     border-radius: 5px;
-}
-
-button:disabled {
-    background-color: #eee;
-    color: #aaa;
-    cursor: auto;
-
 }
 
 button:enabled:hover, button:enabled:focus {

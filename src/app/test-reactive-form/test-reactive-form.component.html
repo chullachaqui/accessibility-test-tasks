@@ -1,0 +1,65 @@
+<div class="container">
+    <h1>Test reactive form</h1>
+    <div *ngIf="userForm.valid && submitted">Form has been properly submitted.</div>
+    <form [formGroup]="userForm" (ngSubmit)="showSummary()" (input)="submitted=false" [hidden]="userForm.valid && submitted">
+        <div class="field">
+            <label for="Name">Name: </label><br>
+            <input id="Name" type="text" formControlName="name" required>
+            
+            <div class="alert" [hidden]="name.valid || name.pristine">
+                <div *ngIf="name.errors?.['required']" role="alert">Name is required</div>
+                <div *ngIf="name.errors?.['minlength']" role="alert">Please enter at least 2 characters</div>
+            </div>
+        </div>
+        
+        <div class="field">
+            <label for="Surname">Surname: </label><br>
+            <input id="Surname" type="text" formControlName="surname" required>
+
+            <div class="alert" [hidden]="surname.valid || surname.pristine">
+                <div *ngIf="surname.errors?.['required']" role="alert">Surname is required</div>
+                <div *ngIf="surname.errors?.['minlength']" role="alert">Please enter at least 2 characters</div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="E-mail">E-mail address: </label><br>
+            <input id="E-mail" type="text" formControlName="mail" (keydown)="mail.markAsPristine()" required>
+            <!-- keydown event is set in order for NVDA to re-read validation alert if its message is unchanged while typing -->
+
+            <div class="alert" [hidden]="mail.valid || mail.pristine">
+                <div *ngIf="mail.errors?.['required']" role="alert">E-mail address is required</div>
+                <div *ngIf="mail.errors?.['email']" role="alert">E-mail address is not valid</div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="Phone number">Phone number: (optional)</label><br>
+            <input id="Phone number" type="text" formControlName="phoneNumber" (keydown)="phoneNumber.markAsPristine()">
+            <div *ngIf="phoneNumber.errors?.['pattern'] && !phoneNumber.pristine" role="alert">Phone number is invalid</div>
+        </div>
+
+        <div class="field">
+            <label for="Nationality">Nationality</label><br>
+            <select id="Nationality" formControlName="nationality" required>
+                <option [value]="nationality" *ngFor="let nationality of nationalities"> {{nationality}} </option>
+            </select>
+
+            <div class="alert" [hidden]="nationality.valid || nationality.untouched">
+                <div *ngIf="nationality.errors?.['required']" role="alert">Nationality is required</div>
+            </div>
+        </div>
+
+        <button type="submit" value="Submit">Submit</button>
+        <span class="summary" *ngIf="!userForm.valid && submitted">
+            <ul>
+                <li *ngIf="!name.valid" role="alert">Please enter valid name</li>
+                <li *ngIf="!surname.valid" role="alert">Please enter valid surname</li>
+                <li *ngIf="!mail.valid" role="alert">Please enter valid e-mail</li>
+                <li *ngIf="!phoneNumber.valid" role="alert">Pleaes either enter valid phone number<br> or leave the entry blank</li>
+                <li *ngIf="!nationality.valid" role="alert">Please select nationality</li>
+            </ul>
+        </span>
+    </form>
+    
+</div>
